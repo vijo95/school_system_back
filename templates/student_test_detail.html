@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+  <div class="container wow fadeIn">
+    <div class="row">
+      <div class="col-lg-6 mb-5">
+        <div class="card p-4 test">
+
+          <h3>{{student_test.student.lastname}}, {{student_test.student.name}}</h3>
+          <h4>
+            {{student_test.test.subject.name}} de {{student_test.test.subject.year}}
+            {{student_test.test.title}}
+          </h4>
+
+            <form method="POST">
+              {% csrf_token %}
+              <div class="row mb-5">
+                <div class="col-lg-3 col-md-6 mt-3">
+                  <input class="form-control" type="text" id="grade"
+                  name="grade" placeholder="Nota" value="{% if grade %}{{grade}}{% endif %}"/>
+                </div>
+                <button  class="btn btn-default btn-md mt-3">
+                  calificar
+                </button>
+              </div>
+            </form>
+
+          <h5>Fecha: {{student_test.test.date|date:"d/m/Y"}}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+  <div class="container wow fadeIn">
+    <div class="row">
+      <div class="col-lg-6 mb-5">
+        <div class="card p-4 task">
+
+          <h3>{{student_task.student}}</h3>
+          <h4>{{student_task.task}}</h4>
+
+          <form method="POST">
+            {% csrf_token %}
+            <div class="row mb-5">
+              <div class="col-lg-3 col-md-6 mt-3">
+                <input class="form-control" type="text" id="grade"
+                name="grade" placeholder="Nota"
+                value="{% if student_task.grade %} {{student_task.grade}} {% endif %}"/>
+              </div>
+
+              <div class="col-lg-3 col-md-6 mt-3">
+                <select class="custom-select d-block w-100"  name="delivered" >
+                  <optgroup label="Entragado">
+                    <option value="true">Si</option>
+                    <option value="false">No</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <button  class="btn btn-primary btn-md mt-3">
+                calificar
+              </button>
+            </div>
+
+          </form>
+
+          <h5>Fecha de Entrega: {{student_task.task.due|date:'d/m/Y'}}</h5>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+  <div class="container wow fadeIn">
+    <h2>{{subject.name}} de {{subject.year.year}}° ({{subject.year.division.name}})</h2>
+      <div class="row mb-4">
+        {% for student_subject in student_subject_list %}
+          <div class="col-lg-12">
+            <div class="card p-4 subject">
+              <h3 style="text-align:center">{{student_subject.student.lastname}}, {{student_subject.student.name}}</h3>
+            </div>
+          </div>
+            {% for student_task in student_task_list %}
+              {% if student_task.student == student_subject.student %}
+                <div class="col-lg-4 mb-5">
+                  {% if student_task.grade < 6 %}
+                    <div class="card p-2 mt-2 test test-failed">
+                      <h4>{{student_task.task.title}}</h4>
+                      <h4>Fecha de Entrega: {{student_task.task.due|date:'d/m/Y'}}</h4>
+                      <h3 style="color:black">
+                        Nota: {{student_task.grade}}
+                        <a href="{{student_task.get_absolute_url}}">
+                          <button  class="btn btn-info btn-md">
+                            cambiar nota
+                          </button>
+                        </a>
+                      </h3>
+                    </div>
+                  {% elif 6 <= student_task.grade %}
+                    <div class="card p-2 mt-2 test test-passed">
+                      <h4>{{student_task.task.title}}</h4>
+                      <h4>Fecha: {{student_task.task.due|date:'d/m/Y'}}</h4>
+                      <h3 style="color:black">
+                        Nota: {{student_task.grade}}
+                        <a href="{{student_task.get_absolute_url}}">
+                          <button  class="btn btn-info btn-md">
+                            cambiar nota
+                          </button>
+                        </a>
+                      </h3>
+                    </div>
+                  {% else %}
+                    <div class="card p-2 mt-2 test">
+                      <h4>{{student_task.task.title}}</h4>
+                      <h4>Fecha: {{student_task.task.date|date:'d/m/Y'}}</h4>
+                      <h3 style="color:black">
+                        Nota: -
+                        <a href="{{student_task.get_absolute_url}}">
+                          <button  class="btn btn-info btn-md">
+                            calificar
+                          </button>
+                        </a>
+                      </h3>
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+  <div class="container wow fadeIn">
+    <h2 class="my-5 text-center">
+      {{task.title}}, {{task.subject}}
+    </h2>
+    <h3 class="my-5 text-center">
+      Fecha de Entraga: {{task.due|date:"d/m/Y"}}
+    </h3>
+    <div class="row">
+      <div class="col-lg-8 mb-5">
+      {% for student_task in student_task_list %}
+        {% if student_task.delivered %}
+          <div class="task card
+          {% if 6 <= student_task.grade %}
+            task-delivered
+          {% elif student_task.grade < 6 %}
+            task-not-delivered
+          {% endif %}">
+            <h4 style="color:black; font-weight:bold">
+              {{student_task.student}}
+            </h4>
+            <h6>
+              <span style="color:black;font-weight:bold">
+                Entragado: Si
+              </span>
+              <br>
+              <span style="color:black;font-weight:bold">
+                Nota: {% if student_task.grade %}
+                {{student_task.grade}} {% else %} - {% endif %}
+              </span>
+              <a href="{{student_task.get_absolute_url}}">
+                <button  class="btn btn-primary btn-md">
+                  cambiar nota
+                </button>
+              </a>
+            </h6>
+          </div>
+        {% elif student_task.delivered == False %}
+          <div class="task card task-not-delivered">
+            <h4 style="color:black; font-weight:bold">
+              {{student_task.student}}
+            </h4>
+            <h6>
+              <span style="color:black;font-weight:bold">
+                Entragado: No
+              </span>
+              <br>
+              <span style="color:black;font-weight:bold">
+                Nota: -
+              </span>
+              <a href="{{student_task.get_absolute_url}}">
+                <button  class="btn btn-primary btn-md">
+                  calificar
+                </button>
+              </a>
+            </h6>
+          </div>
+        {% else %}
+          <div class="task card">
+            <h4 style="color:black; font-weight:bold">
+              {{student_task.student}}
+            </h4>
+            <h6>
+              <span style="color:black;font-weight:bold">
+                Entragado: -
+                <a href="{{student_task.get_absolute_url}}">
+                  <button  class="btn btn-primary btn-md">
+                    calificar
+                  </button>
+                </a>
+              </span>
+            </h6>
+          </div>
+        {% endif %}
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

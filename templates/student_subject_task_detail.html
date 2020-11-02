@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+  <div class="container wow fadeIn">
+    <h2>
+      {{student_subject.subject.name}} de {{student_subject.subject.year.year}}°
+      ({{student_subject.subject.year.division.name}})
+    </h2>
+    <div class="row mb-4">
+      {% for student_task in student_task_list %}
+        <div class="col-lg-4 mb-3">
+          {% if student_task.grade < 6 %}
+            <div class="card p-2 task task-not-delivered">
+              <h4>{{student_task.task.title}}</h4>
+              <h4>Fecha de Entrega: {{student_task.task.due|date:'d/m/Y'}}</h4>
+              <h3 style="color:black">
+                Nota: {{student_task.grade}}
+              </h3>
+            </div>
+          {% elif 6 <= student_task.grade %}
+            <div class="card p-2 task task-delivered">
+              <h4>{{student_task.task.title}}</h4>
+              <h4>Fecha: {{student_task.task.due|date:'d/m/Y'}}</h4>
+              <h3 style="color:black">
+                Nota: {{student_task.grade}}
+              </h3>
+            </div>
+          {% else %}
+            <div class="card p-2 task">
+              <h4>{{student_task.task.title}}</h4>
+              <h4>Fecha: {{student_task.task.date|date:'d/m/Y'}}</h4>
+              <h3 style="color:black">
+                Nota: -
+              </h3>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+{% endblock %}

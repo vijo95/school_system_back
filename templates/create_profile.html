@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <!--Main layout-->
+  <main>
+    <div class="container wow fadeIn">
+      <h2 class="my-5 h2 text-center">Creación de Perfil</h2>
+      <div class="row">
+        <div class="col-lg-12 mb-5">
+          <div class="card">
+
+            <form method="POST" class="card-body m-3">
+              {% csrf_token %}
+              <h3 class="mt-4">
+                Datos Personales del {% if student %} Estudiante
+                {% elif teacher %} Profesor/a
+                {% else %} Usuario{% endif %}
+              </h3>
+
+              <div class="row mb-5">
+                <div class="col-lg-6 col-md-6">
+                  <div class="md-form">
+                    <label for="name" class="">
+                      <i class="fas fa-user mr-2"></i>Nombre(s)
+                    </label>
+                    <input class="form-control" type="text" id="name" name="name"/>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <div class="md-form">
+                    <label for="last_name" class="">
+                      <i class="fas fa-user mr-2"></i>Apellido(s)
+                    </label>
+                    <input class="form-control" type="text" id="last_name" name="last_name"/>
+                  </div>
+                </div>
+                {% if student %}
+                  <div class="col-lg-4 col-md-6">
+                    <div class="md-form">
+                      <label for="dni" class="">
+                        <i class="far fa-id-badge mr-2"></i>DNI
+                      </label>
+                      <input class="form-control" type="text" id="dni" name="dni"/>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-6">
+                    <div class="md-form">
+                      <label for="entry_year" class="">
+                        <i class="fas fa-calendar-alt mr-2"></i>Año de ingreso
+                      </label>
+                      <input class="form-control" type="text" id="entry_year" name="entry_year"/>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-6">
+                    <div class="md-form">
+                      <select class="custom-select d-block w-100"  name="current_year" >
+                        <optgroup label="Año Actual">
+                          <option value=""></option>
+                          {% for year in year_list %}
+                            <option value="{{year.year}},{{year.division.name}}">{{year.year}}° {{year.division.name}}</option>
+                          {% endfor %}
+                        </optgroup>
+                      </select>
+                    </div>
+                  </div>
+                {% else %}
+                  <div class="col-lg-6 col-md-6">
+                    <div class="md-form">
+                      <label for="dni" class="">
+                        <i class="far fa-id-badge mr-2"></i>DNI
+                      </label>
+                      <input class="form-control" type="text" id="dni" name="dni"/>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="md-form">
+                      <label for="entry_year" class="">
+                        <i class="fas fa-calendar-alt mr-2"></i>Año de ingreso
+                      </label>
+                      <input class="form-control" type="text" id="entry_year" name="entry_year"/>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+
+              <button class="btn btn-primary btn-md col-lg-6 col-md-6" type="submit" name="button">
+                crear perfil de {% if student %} estudiante
+                {% elif teacher %} profesor {% endif %}
+              </button>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock content %}

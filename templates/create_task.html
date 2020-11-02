@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load translate_month_to_numeric %}
+{% block content %}
+  <main>
+    <div class="container wow fadeIn">
+      <h2 class="my-5 h2 text-center">Creación de Trabajos</h2>
+      <div class="row">
+        <div class="col-lg-12 mb-5">
+          <div class="card">
+
+            <form method="POST" class="card-body m-3">
+              {% csrf_token %}
+
+              <div class="col-lg-6 col-md-6 mb-5">
+                <div class="md-form">
+                  <label for="title" class="">
+                    Título del Trbajo
+                  </label>
+                  <input class="form-control" type="text" id="title" name="title"/>
+                </div>
+              </div>
+
+              <div class="col-lg-12 col-md-6 mb-5">
+                <div class="md-form">
+                  <textarea class="form-control" id="text"name="text" rows="8"
+                  placeholder="Información sobre el trabajo"
+                  style="padding:15px; border-radius:10px"></textarea>
+                </div>
+              </div>
+
+              <h4>Fecha de Entrega</h4>
+              <div class="row mb-5">
+                <div class="col-lg-4 col-md-6">
+                  <div class="md-form">
+                    <select class="custom-select d-block w-100"  name="date_day" >
+                      <optgroup label="Día">
+                        {% for day in days %}
+                          <option value="{{day}}">{{day}}</option>
+                        {% endfor %}
+                      </optgroup>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                  <div class="md-form">
+                    <select class="custom-select d-block w-100"  name="date_month" >
+                      <optgroup label="Mes">
+                        {% for month in months %}
+                          <option value="{{month|translate_month}}">{{month}}</option>
+                        {% endfor %}
+                      </optgroup>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                  <div class="md-form">
+                    <select class="custom-select d-block w-100"  name="date_year" >
+                      <optgroup label="Año">
+                        {% for year in years %}
+                          <option value="{{year}}">{{year}}</option>
+                        {% endfor %}
+                      </optgroup>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-8 mt-3">
+                  <h4>Materia</h4>
+                  <div class="md-form">
+                    <select class="custom-select d-block w-100"  name="subject" >
+                      <optgroup label="Año">
+                        {% for subject in subject_list %}
+                          <option value="{{subject.name}},{{subject.year.year}},{{subject.year.division.name}}">
+                            {{subject}}
+                          </option>
+                        {% endfor %}
+                      </optgroup>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+
+              <button class="btn btn-primary btn-md col-lg-4 col-md-6" type="submit" name="button">
+                crear exámen
+              </button>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}

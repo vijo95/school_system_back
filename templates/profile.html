@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+  <div class="container wow fadeIn">
+    <h1 style="text-align:center">
+      {% if teacher %}
+      <a href="{% url 'core:create-task' %}">
+        <button  class="btn btn-default btn-md">
+          crear trabajo
+        </button>
+      </a>
+      <a href="{% url 'core:create-test' %}">
+        <button  class="btn btn-warning btn-md">
+          crear examen
+        </button>
+      </a>
+      {% endif %}
+    </h1>
+
+    <div class="row">
+
+      <div class="col-lg-6 mb-5">
+        <h2 style="text-align:center">Trabajos</h2>
+        {% if teacher %}
+          {% for subject in subject_list %}
+            <a href="{{subject.get_absolute_url_task}}">
+              <div class="card p-4 subject">
+                <h3>{{subject.name}} de {{subject.year.year}}° ({{subject.year.division.name}})</h3>
+              </div>
+            </a>
+          {% endfor %}
+        {% elif student %}
+          {% for student_subject in student_subject_list %}
+            <a href="{{student_subject.get_absolute_url_task}}">
+              <div class="card p-4 subject">
+                <h3>{{student_subject.subject.name}} de
+                  {{student_subject.subject.year.year}}°
+                  ({{student_subject.subject.year.division.name}})
+                </h3>
+              </div>
+            </a>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <div class="col-lg-6 mb-5">
+        <h2 style="text-align:center">Exámenes</h2>
+        {% if teacher %}
+          {% for subject in subject_list %}
+            <a href="{{subject.get_absolute_url}}">
+              <div class="card p-4 subject">
+                <h3>{{subject.name}} de {{subject.year.year}}° ({{subject.year.division.name}})</h3>
+              </div>
+            </a>
+          {% endfor %}
+        {% elif student %}
+          {% for student_subject in student_subject_list %}
+            <a href="{{student_subject.get_absolute_url}}">
+              <div class="card p-4 subject">
+                <h3>{{student_subject.subject.name}} de
+                  {{student_subject.subject.year.year}}°
+                  ({{student_subject.subject.year.division.name}})
+                </h3>
+              </div>
+            </a>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</main>
+{% endblock %}

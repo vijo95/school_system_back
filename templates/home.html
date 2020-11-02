@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+
+  <!-- Tasks  -->
+  <div class="tests-tasks-list">
+    <h1>
+      Trabajos
+      {% if teacher %}
+        <a href="{% url 'core:create-task' %}">
+          <button  class="btn btn-primary btn-md">
+            crear trabajo
+          </button>
+        </a>
+      {% endif %}
+    </h1>
+
+      {% if student %}
+        {% for task in task_list_student %}
+        <div class="task card
+          {% if 6 <= task.grade %} task-delivered
+          {% elif task.grade < 6 %} task-not-delivered
+          {% elif task.delivered == False %} task-not-delivered
+          {% endif %}">
+          <h4 style="color:gray; font-weight:bold">{{task.task.subject}}</h4>
+          <h5 style="font-weight:bold">{{task.task.title}}</h5>
+          <p class="text_info">{{task.task.text}}</p>
+          <h6>
+            <span>Creado: {{task.task.created_date|date:"d/m/Y"}}</span><br/>
+            <span style="color:black; font-weight:bold">Fecha de Entrega: {{task.task.due|date:"d/m/Y"}}</span><br/>
+            <span style="color:black; font-weight:bold">
+              Nota: {% if task.grade %}
+              {{task.grade}}{% else %}
+              -{% endif %}
+            </span> |
+            <span style="color:black; font-weight:bold">
+              Entregado: {% if task.delivered %} Si
+              {% elif task.delivered == False %} No
+              {% else %} - {% endif %}
+            </span>
+          </h6>
+        </div>
+        {% endfor %}
+      {% endif %}
+
+    {% if teacher %}
+      {% for task in task_list_teacher %}
+        <a href="{{task.get_absolute_url}}">
+          <div class="task card">
+            <h4 style="color:gray; font-weight:bold">{{task.subject}}</h4>
+            <h5 style="font-weight:bold">{{task.title}}</h5>
+            <p class="text_info">{{task.text}}</p>
+            <h6>
+              <span>Creado: {{task.created_date|date:"d/m/Y"}}</span><br/>
+              <span style="color:black; font-weight:bold">Entrega: {{task.due|date:"d/m/Y"}}</span><br/>
+            </h6>
+          </div>
+        </a>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <!-- Tests -->
+  <div class="tests-tasks-list">
+    <h1>
+      Exámenes
+      {% if teacher %}
+        <a href="{% url 'core:create-test' %}">
+          <button  class="btn btn-primary btn-md">
+            crear examen
+          </button>
+        </a>
+      {% endif %}
+    </h1>
+
+    {% if student %}
+      {% for test in test_list_student %}
+        {% if 6 <= test.grade %}
+          <div class="test card test-passed">
+            <h4>{{test.test.subject}}</h4>
+            <h3>{{test.test.title}}</h3>
+            <h6>
+              <span>Fecha: {{test.test.date|date:"d/m/Y"}}</span><br/>
+              <span style="color:black; font-size:24px">
+                Nota: {{test.grade}}
+              </span>
+            </h6>
+          </div>
+        {% elif 0 <= test.grade and test.grade < 6 %}
+          <div class="test card test-failed">
+            <h4>{{test.test.subject}}</h4>
+            <h3>{{test.test.title}}</h3>
+            <h6>
+              <span>Fecha: {{test.test.date|date:"d/m/Y"}}</span><br/>
+              <span style="color:black; font-size:24px">
+                Nota: {{test.grade}}
+              </span>
+            </h6>
+          </div>
+        {% else %}
+          <div class="test card">
+            <h4>{{test.test.subject}}</h4>
+            <h3>{{test.test.title}}</h3>
+            <h6>
+              <span>Fecha: {{test.test.date|date:"d/m/Y"}}</span><br/>
+              <span>Nota: -</span>
+            </h6>
+          </div>
+        {% endif %}
+      {% endfor %}
+
+    {% elif teacher %}
+      {% for teacher_test in test_list_teacher %}
+        <a href="{{teacher_test.get_absolute_url}}">
+          <div class="test card">
+            <h4 style="color:black">{{teacher_test.subject.name}} {{teacher_test.subject.year.year}}° ({{teacher_test.subject.year.division.name}})</h4>
+            <h3 style="color:gray">{{teacher_test.title}}</h3>
+            <h6>
+              <span>Fecha: {{teacher_test.date|date:"d/m/Y"}}</span><br/>
+            </h6>
+          </div>
+        </a>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

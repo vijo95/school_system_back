@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+  <div class="container wow fadeIn">
+    <h2>
+      {{student_subject.subject.name}} de {{student_subject.subject.year.year}}°
+      ({{student_subject.subject.year.division.name}})
+    </h2>
+    <div class="row mb-4">
+      {% for student_test in student_test_list %}
+        <div class="col-lg-4 mb-3">
+          {% if student_test.grade < 6 %}
+            <div class="card p-2 test test-failed">
+              <h4>{{student_test.test.title}}</h4>
+              <h4>Fecha: {{student_test.test.date|date:'d/m/Y'}}</h4>
+              <h3 style="color:black">
+                Nota: {{student_test.grade}}
+              </h3>
+            </div>
+          {% elif 6 <= student_test.grade %}
+            <div class="card p-2 test test-passed">
+              <h4>{{student_test.test.title}}</h4>
+              <h4>Fecha: {{student_test.test.date|date:'d/m/Y'}}</h4>
+              <h3 style="color:black">
+                Nota: {{student_test.grade}}
+              </h3>
+            </div>
+          {% else %}
+            <div class="card p-2 test">
+              <h4>{{student_test.test.title}}</h4>
+              <h4>Fecha: {{student_test.test.date|date:'d/m/Y'}}</h4>
+              <h3 style="color:black">
+                Nota: -
+              </h3>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+{% endblock %}
